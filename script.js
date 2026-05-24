@@ -36,6 +36,7 @@ var brushSlider = document.getElementById("brushSlider");
 var clearButton = document.getElementById("clearButton");
 var undoButton = document.getElementById("undoButton");
 var redoButton = document.getElementById("redoButton");
+var exportButton = document.getElementById("exportButton");
 
 let drawing = true; //if drawing is true, draw pixels. If drawing is false then erase pixels instead
 let isPainting = false;
@@ -62,7 +63,46 @@ brushSlider.addEventListener("input", function() {
 });
 
 clearButton.addEventListener("click", function() {
+  saveState();
   dctx.clearRect(0, 0, maxX*cellSize, maxY*cellSize);
+});
+
+exportButton.addEventListener("click", function() {
+  let img = dctx.getImageData(0, 0, canvasWidth, canvasHeight).data;
+  let pixels = [];
+  for(let y = 0; y < canvasHeight; y+=10){
+    let row = [];
+    for(let x = 0; x < canvasWidth; x+=10){
+      let index = (y * canvasWidth + x) * 4;
+      let r = img[index];
+      let g = img[index + 1];
+      let b = img[index + 2];
+      let a = img[index + 3];
+      let r5 = r >> 3; // 8 bit -> 5 bit
+      let g6 = g >> 2; // 8 bit -> 6 bit
+      let b5 = b >> 3; // 8 bit -> 5 bit
+      
+      let rgb565 = (r5 << 11) | (g6 << 5) | b5;
+      
+      let hex = "0x" + rgb565.toString(16).padStart(4, "0").toUpperCase();
+      row.push(hex);
+    }
+    pixels.push(row);
+  }
+  
+  let arduino = "const uint16_t image[120][160] = {\n";
+  
+  for(let row of pixels){
+    arduino += " {" + row.join(", ") + "},\n";
+  }
+  
+  arduino += "};";
+  
+  
+  navigator.clipboard.writeText(arduino)
+  .then(() => alert("Copied Arduino array to clipboard!"))
+  .catch(err => alert("Copy failed: " + err));
+  
 });
 
 undoButton.addEventListener("click", function() {
