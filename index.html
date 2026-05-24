@@ -34,8 +34,21 @@ for (let j = 0; j <= maxY; j++){
 </script>
 
 <script>
+let isPainting = false;
 var c = document.getElementById("myCanvas");
-c.addEventListener("mousedown", addPixels);
+c.addEventListener("mousedown", function(event)
+{
+  isPainting = true;
+  addPixels(event);
+});
+c.addEventListener("mouseup", function(event){
+  isPainting = false;
+});
+c.addEventListener("mousemove", function(event){
+  if(isPainting){
+    addPixels(event);
+  }
+});
 var ctx = c.getContext("2d");
 
 let rect = c.getBoundingClientRect();
@@ -48,8 +61,9 @@ function addPixels(event){
     let pixelX = cellX*cellSize;
     let pixelY = cellY*cellSize;
     ctx.fillStyle = "black";
-
+    if(isPainting){
     ctx.fillRect(pixelX, pixelY, cellSize, cellSize);
+    }
 }
 </script>
   
