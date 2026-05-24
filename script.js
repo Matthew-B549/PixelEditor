@@ -3,50 +3,87 @@
 let cellSize = 10;
 let maxX = 1600/cellSize;
 let maxY = 1200/cellSize;
-var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
-ctx.strokeStyle = "rgba(0,0,0,0.2)";
-ctx.lineWidth = 1;
+
+var draw = document.getElementById("drawCanvas");
+var dctx = draw.getContext("2d");
+var grid = document.getElementById("gridCanvas");
+var gctx = grid.getContext("2d");
+
+gctx.strokeStyle = "rgba(0,0,0,0.2)";
+gctx.lineWidth = 1;
+
 for (let i = 0; i <= maxX; i++){
-  ctx.beginPath();
-  ctx.moveTo(i*cellSize, 0);
-  ctx.lineTo(i*cellSize, 1200);
-  ctx.stroke();
+  gctx.beginPath();
+  gctx.moveTo(i*cellSize, 0);
+  gctx.lineTo(i*cellSize, 1200);
+  gctx.stroke();
 }
 for (let j = 0; j <= maxY; j++){
-  	ctx.beginPath();
-	ctx.moveTo(0, j*cellSize);
-    ctx.lineTo(1600, j*cellSize);
-    ctx.stroke();
+  gctx.beginPath();
+	gctx.moveTo(0, j*cellSize);
+  gctx.lineTo(1600, j*cellSize);
+  gctx.stroke();
 }
 
 //This second part of code is for actually drawing the pixels
 
+var drawButton = document.getElementById("drawButton");
+var eraseButton = document.getElementById("eraseButton");
+
+let drawing = true; //if drawing is true, draw pixels. If drawing is false then erase pixels instead
 let isPainting = false;
-c.addEventListener("mousedown", function(event)
+
+drawButton.addEventListener("click", function() {
+  drawing = true;
+});
+
+eraseButton.addEventListener("click", function() {
+  drawing = false;
+});
+
+draw.addEventListener("mousedown", function(event)
 {
   isPainting = true;
+  if(drawing){
   addPixels(event);
+  }
+  else if(!drawing){
+    erasePixels(event);
+  }
 });
-c.addEventListener("mouseup", function(event){
+draw.addEventListener("mouseup", function(event){
   isPainting = false;
 });
-c.addEventListener("mousemove", function(event){
+draw.addEventListener("mousemove", function(event){
   if(isPainting){
+    if(drawing){
     addPixels(event);
+    }
+    else if(!drawing){
+    erasePixels(event);
+    }
   }
 });
 
 function addPixels(event){
-    let rect = c.getBoundingClientRect();
+    let rect = draw.getBoundingClientRect();
 	  let mouseX = event.clientX - rect.left;
     let mouseY = event.clientY -rect.top;
     let cellX = Math.floor(mouseX/cellSize);
     let cellY = Math.floor(mouseY/cellSize);
     let pixelX = cellX*cellSize;
     let pixelY = cellY*cellSize;
-    ctx.fillStyle = "black";
-    if(isPainting){
-    ctx.fillRect(pixelX, pixelY, cellSize, cellSize);
-    }
+    dctx.fillStyle = "black";
+    dctx.fillRect(pixelX, pixelY, cellSize, cellSize);
+}
+
+function erasePixels(event){
+   let rect = draw.getBoundingClientRect();
+	  let mouseX = event.clientX - rect.left;
+    let mouseY = event.clientY - rect.top;
+    let cellX = Math.floor(mouseX/cellSize);
+    let cellY = Math.floor(mouseY/cellSize);
+    let pixelX = cellX*cellSize;
+    let pixelY = cellY*cellSize;
+    dctx.clearRect(pixelX, pixelY, cellSize, cellSize);
 }
