@@ -37,10 +37,8 @@ c.addEventListener("mousemove", function(event){
   }
 });
 
-let rect = c.getBoundingClientRect();
-
 function addPixels(event){
-    rect = c.getBoundingClientRect();
+    let rect = c.getBoundingClientRect();
 	  let mouseX = event.clientX - rect.left;
     let mouseY = event.clientY -rect.top;
     let cellX = Math.floor(mouseX/cellSize);
