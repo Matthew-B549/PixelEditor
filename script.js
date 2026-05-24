@@ -3,6 +3,8 @@
 let cellSize = 10;
 let maxX = 1600/cellSize;
 let maxY = 1200/cellSize;
+let canvasWidth = 1600;
+let canvasHeight = 1200;
 
 var draw = document.getElementById("drawCanvas");
 var dctx = draw.getContext("2d");
@@ -32,11 +34,16 @@ var eraseButton = document.getElementById("eraseButton");
 var colorPicker = document.getElementById("colorPicker");
 var brushSlider = document.getElementById("brushSlider");
 var clearButton = document.getElementById("clearButton");
+var undoButton = document.getElementById("undoButton");
+var redoButton = document.getElementById("redoButton");
 
 let drawing = true; //if drawing is true, draw pixels. If drawing is false then erase pixels instead
 let isPainting = false;
 let currentColor = "#000000";
 let brushSize = 1;
+
+let undoStack = [];
+let redoStack = [];
 
 drawButton.addEventListener("click", function() {
   drawing = true;
@@ -58,8 +65,28 @@ clearButton.addEventListener("click", function() {
   dctx.clearRect(0, 0, maxX*cellSize, maxY*cellSize);
 });
 
+undoButton.addEventListener("click", function() {
+  const currentImage = dctx.getImageData(0, 0, canvasWidth, canvasHeight);
+  redoStack.push(currentImage);
+  if(undoStack.length != 0){
+  const lastImage = undoStack.pop();
+  dctx.putImageData(lastImage, 0, 0);
+  }
+});
+
+redoButton.addEventListener("click", function() {
+  const currentImage = dctx.getImageData(0, 0, canvasWidth, canvasHeight);
+  undoStack.push(currentImage);
+  if(redoStack.length != 0){
+  const redoImage = redoStack.pop();
+  dctx.putImageData(redoImage, 0, 0);
+  }
+});
+
+
 draw.addEventListener("mousedown", function(event)
 {
+  saveState();
   isPainting = true;
   if(drawing){
   addPixels(event);
@@ -102,7 +129,7 @@ function addPixels(event){
 }
 
 function erasePixels(event){
-   let rect = draw.getBoundingClientRect();
+    let rect = draw.getBoundingClientRect();
 	  let mouseX = event.clientX - rect.left;
     let mouseY = event.clientY - rect.top;
     let cellX = Math.floor(mouseX/cellSize);
@@ -117,4 +144,10 @@ function erasePixels(event){
           dctx.clearRect(pixelX + dx*cellSize, pixelY + dy*cellSize, cellSize, cellSize);
       }
     }
+}
+
+function saveState(){
+  const image = dctx.getImageData(0, 0, canvasWidth, canvasHeight);
+  undoStack.push(image);
+  redoStack = [];
 }
