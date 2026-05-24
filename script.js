@@ -101,7 +101,7 @@ exportButton.addEventListener("click", function() {
   
   let blob = new Blob([arduino], {type: "text/plain"});
   
-  let url = URL.createObjectUrl(blob);
+  let url = URL.createObjectURL(blob);
   let a = document.createElement("a");
   a.href = url;
   a.download = "image.h";
