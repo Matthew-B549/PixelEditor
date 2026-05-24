@@ -99,9 +99,19 @@ exportButton.addEventListener("click", function() {
   arduino += "};";
   
   
-  navigator.clipboard.writeText(arduino)
-  .then(() => alert("Copied Arduino array to clipboard!"))
-  .catch(err => alert("Copy failed: " + err));
+  let blob = new Blob([arduino], {type: "text/plain"});
+  
+  let url = URL.createObjectUrl(blob);
+  let a = document.createElement("a");
+  a.href = url;
+  a.download = "image.h";
+  a.click();
+  
+  URL.revokeObjectURL(url);
+  
+  // navigator.clipboard.writeText(arduino)
+  // .then(() => alert("Copied Arduino array to clipboard!"))
+  // .catch(err => alert("Copy failed: " + err));
   
 });
 
