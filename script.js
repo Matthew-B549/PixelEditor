@@ -29,9 +29,14 @@ for (let j = 0; j <= maxY; j++){
 
 var drawButton = document.getElementById("drawButton");
 var eraseButton = document.getElementById("eraseButton");
+var colorPicker = document.getElementById("colorPicker");
+var brushSlider = document.getElementById("brushSlider");
+var clearButton = document.getElementById("clearButton");
 
 let drawing = true; //if drawing is true, draw pixels. If drawing is false then erase pixels instead
 let isPainting = false;
+let currentColor = "#000000";
+let brushSize = 1;
 
 drawButton.addEventListener("click", function() {
   drawing = true;
@@ -39,6 +44,18 @@ drawButton.addEventListener("click", function() {
 
 eraseButton.addEventListener("click", function() {
   drawing = false;
+});
+
+colorPicker.addEventListener("input", function() {
+  currentColor = this.value;
+});
+
+brushSlider.addEventListener("input", function() {
+  brushSize = parseInt(this.value);
+});
+
+clearButton.addEventListener("click", function() {
+  dctx.clearRect(0, 0, maxX*cellSize, maxY*cellSize);
 });
 
 draw.addEventListener("mousedown", function(event)
@@ -73,8 +90,15 @@ function addPixels(event){
     let cellY = Math.floor(mouseY/cellSize);
     let pixelX = cellX*cellSize;
     let pixelY = cellY*cellSize;
-    dctx.fillStyle = "black";
-    dctx.fillRect(pixelX, pixelY, cellSize, cellSize);
+    dctx.fillStyle = currentColor;
+    
+    let radius = Math.floor(brushSize / 2);
+    
+    for(let dx = - radius; dx < brushSize - radius; dx++){
+      for(let dy = - radius; dy < brushSize - radius; dy++){
+        dctx.fillRect(pixelX + dx*cellSize, pixelY + dy*cellSize, cellSize, cellSize);
+      }
+    }
 }
 
 function erasePixels(event){
@@ -85,5 +109,12 @@ function erasePixels(event){
     let cellY = Math.floor(mouseY/cellSize);
     let pixelX = cellX*cellSize;
     let pixelY = cellY*cellSize;
-    dctx.clearRect(pixelX, pixelY, cellSize, cellSize);
+    
+    let radius = Math.floor(brushSize / 2);
+    
+    for(let dx = - radius; dx < brushSize - radius; dx++){
+      for(let dy = -radius; dy < brushSize - radius; dy++){
+          dctx.clearRect(pixelX + dx*cellSize, pixelY + dy*cellSize, cellSize, cellSize);
+      }
+    }
 }
