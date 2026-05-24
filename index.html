@@ -6,12 +6,22 @@
   
 <body>
   
-
-<canvas id="myCanvas" width="1600" height="1200" style="border:1px solid #000000;">
+<div style="position:relative; width: 1600px; height: 1200px;">
+  
+<canvas id ="gridCanvas" width="1600" height="1200" style="position:absolute; left:0; top:0;">
+Your browser does not support the HTML canvas tag.
+</canvas>  
+  
+<canvas id="drawCanvas" width="1600" height="1200" style="position:absolute; left:0; top:0; border:1px solid #000000;">
 Your browser does not support the HTML canvas tag.
 </canvas>
 
+</div>
+
+<button id="drawButton">DRAW</button>
+<button id="eraseButton">ERASE</button>
+
 <script src="script.js"></script>
 
-</body>  
+</body>
 </html>
