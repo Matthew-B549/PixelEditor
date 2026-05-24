@@ -12,20 +12,23 @@ Your browser does not support the HTML canvas tag.
 
 
 <script>
-let maxX = 320;
-let maxY = 240;
+let cellSize = 10;
+let maxX = 1600/cellSize;
+let maxY = 1200/cellSize;
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-for (let i = 0; i < maxX; i++){
+ctx.strokeStyle = "rgba(0,0,0,0.2)";
+ctx.lineWidth = 1;
+for (let i = 0; i <= maxX; i++){
   ctx.beginPath();
-  ctx.moveTo(4*i, 0);
-  ctx.lineTo(4*i, 4*maxY);
+  ctx.moveTo(i*cellSize, 0);
+  ctx.lineTo(i*cellSize, 1200);
   ctx.stroke();
 }
-for (let j = 0; j < maxY; j++){
+for (let j = 0; j <= maxY; j++){
   	ctx.beginPath();
-	ctx.moveTo(0, 4*j);
-    ctx.lineTo(4*maxX, 4*j);
+	ctx.moveTo(0, j*cellSize);
+    ctx.lineTo(1600, j*cellSize);
     ctx.stroke();
 }
 </script>
