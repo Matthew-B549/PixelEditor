@@ -38,9 +38,11 @@ var c = document.getElementById("myCanvas");
 c.addEventListener("mousedown", addPixels);
 var ctx = c.getContext("2d");
 
+let rect = c.getBoundingClientRect();
+
 function addPixels(event){
-	let mouseX = event.clientX;
-    let mouseY = event.clientY;
+	let mouseX = event.clientX - rect.left;
+    let mouseY = event.clientY -rect.top;
     let cellX = Math.floor(mouseX/cellSize);
     let cellY = Math.floor(mouseY/cellSize);
     let pixelX = cellX*cellSize;
