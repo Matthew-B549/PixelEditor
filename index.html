@@ -33,6 +33,23 @@ for (let j = 0; j <= maxY; j++){
 }
 </script>
 
+<script>
+var c = document.getElementById("myCanvas");
+c.addEventListener("mousedown", addPixels);
+var ctx = c.getContext("2d");
+
+function addPixels(event){
+	let mouseX = event.clientX;
+    let mouseY = event.clientY;
+    let cellX = Math.floor(mouseX/cellSize);
+    let cellY = Math.floor(mouseY/cellSize);
+    let pixelX = cellX*cellSize;
+    let pixelY = cellY*cellSize;
+    ctx.fillStyle = "black";
+
+    ctx.fillRect(pixelX, pixelY, cellSize, cellSize);
+}
+</script>
   
 </body>  
 </html>
