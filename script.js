@@ -89,33 +89,30 @@ exportButton.addEventListener("click", function() {
     }
     pixels.push(row);
   }
+  let variableName = "image";
   
-  let arduino = "const uint16_t image[120][160] = {\n";
-  
+  let userInput = prompt("Please enter what you would like to call this file", "image");
+
+if (userInput !== null && userInput.trim() !== "") {
+  variableName = userInput.trim().replace(/[^a-zA-Z0-9_]/g, "_");
+}
+
+  let arduino = `const uint16_t ${variableName}[120][160] = {\n`;
   for(let row of pixels){
     arduino += " {" + row.join(", ") + "},\n";
   }
-  
   arduino += "};";
   
+let blob = new Blob([arduino], {type: "text/plain"});
   
-  let blob = new Blob([arduino], {type: "text/plain"});
-  
-  let url = URL.createObjectURL(blob);
+let url = URL.createObjectURL(blob);
 let a = document.createElement("a");
 a.href = url;
 
-let userInput = prompt("Please enter what you would like to call this file", "image");
 
 // Check if the user didn't click cancel and didn't leave it empty
-if (userInput !== null && userInput.trim() !== "") {
-  a.download = userInput.trim() + ".h";
+  a.download = variableName.trim() + ".h";
   a.click();
-} else if (userInput !== null) {
-  // Fallback if they cleared the text but pressed OK
-  a.download = "image.h";
-  a.click();
-}
 
 // Allow a brief moment for the browser to initiate the download before revoking
 setTimeout(() => {
