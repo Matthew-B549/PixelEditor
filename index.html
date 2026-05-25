@@ -1,38 +1,35 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-<head>
   
-</head>
-  
-<body>
-  
-<div style="position:relative; width: 1600px; height: 1200px;">
-  
-<canvas id ="gridCanvas" width="1600" height="1200" style="position:absolute; left:0; top:0;">
-Your browser does not support the HTML canvas tag.
-</canvas>  
-  
-<canvas id="drawCanvas" width="1600" height="1200" style="position:absolute; left:0; top:0; border:1px solid #000000;">
-Your browser does not support the HTML canvas tag.
-</canvas>
+  <body>
 
-</div>
-<!--These are all of the buttons that will show below the bottom of the canvas-->
-<button id="drawButton">DRAW</button>
-<button id="eraseButton">ERASE</button>
-<label>Brush Color:
-<input type="color" id ="colorPicker" value="#000000">
-</label>
-<label>Brush Size:
-<input type="range" id="brushSlider" min="1" max="10" value="1">
-</label>
-<button id="clearButton">CLEAR</button>
-<button id="undoButton">UNDO</button>
-<button id="redoButton">REDO</button>
+  <div id="canvasContainer" style="position:relative; width: 1600px; height: 1200px; margin-bottom: 20px;">
 
-<button id="exportButton">EXPORT TO ARDUINO CODE</button>
+    <canvas id="gridCanvas" width="1600" height="1200" style="position:absolute; left:0; top:0; z-index: 1;">
+      Your browser does not support the HTML canvas tag.
+    </canvas>
 
-<script src="script.js"></script>
+    <canvas id="drawCanvas" width="1600" height="1200" style="position:absolute; left:0; top:0; z-index: 2; border:1px solid #000000;">
+      Your browser does not support the HTML canvas tag.
+    </canvas>
 
+  </div>
+
+  <button id="drawButton">DRAW</button>
+  <button id="eraseButton">ERASE</button>
+  <label>Brush Color:
+    <input type="color" id="colorPicker" value="#000000">
+  </label>
+  <label>Brush Size:
+    <input type="range" id="brushSlider" min="1" max="10" value="1">
+  </label>
+  <button id="clearButton">CLEAR</button>
+  <button id="undoButton">UNDO</button>
+  <button id="redoButton">REDO</button>
+  <button id="exportButton">EXPORT TO ARDUINO CODE</button>
+  <button id="changeCanvasSize">CHANGE CANVAS SIZE</button>
+
+  <script src="script.js"></script>
 </body>
+
 </html>
