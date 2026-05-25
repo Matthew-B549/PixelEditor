@@ -102,12 +102,25 @@ exportButton.addEventListener("click", function() {
   let blob = new Blob([arduino], {type: "text/plain"});
   
   let url = URL.createObjectURL(blob);
-  let a = document.createElement("a");
-  a.href = url;
+let a = document.createElement("a");
+a.href = url;
+
+let userInput = prompt("Please enter what you would like to call this file", "image");
+
+// Check if the user didn't click cancel and didn't leave it empty
+if (userInput !== null && userInput.trim() !== "") {
+  a.download = userInput.trim() + ".h";
+  a.click();
+} else if (userInput !== null) {
+  // Fallback if they cleared the text but pressed OK
   a.download = "image.h";
   a.click();
-  
+}
+
+// Allow a brief moment for the browser to initiate the download before revoking
+setTimeout(() => {
   URL.revokeObjectURL(url);
+}, 100);
   
   // navigator.clipboard.writeText(arduino)
   // .then(() => alert("Copied Arduino array to clipboard!"))
