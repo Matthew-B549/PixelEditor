@@ -1,2 +1,2 @@
 # PixelEditor
-I will be coding and using this pixel editor to create art for my Game Boy replica project. I will make a start screen, menu system, score, etc.
+This pixel editor is crucial for creating art for my Game Boy replica project. It allows me to make and export art for a start screen, menu, score, etc.
