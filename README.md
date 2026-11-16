@@ -3,7 +3,7 @@ This pixel editor is crucial for creating art for my custom handheld console pro
 
 Steps for getting your art / an image to show on the Handheld Console Screen:
 
-1. Visit the GitHub Pages for this repo.
+1. Visit the GitHub Pages for this repo: https://matthew-b549.github.io/PixelEditor/
 
 2. Create your design (helpful tools are at the bottom of the page - erase, color selection, etc.)
 
